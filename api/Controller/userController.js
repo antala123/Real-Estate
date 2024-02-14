@@ -32,7 +32,12 @@ export const updateUser = async (req, res, next) => {
 
 // Sign Out:
 export const signout = (req, res, next) => {
-    if (req.user.id !== req.params.id) {
+    // console.log(req.user._id);
+
+    if (!req.user) {
+        return next(errorHandler(401, "You must be logged in to sign out"));
+    }
+    if (req.user._id !== req.params.id) {
         return next(errorHandler(401, "You can only SignOut your own account!"));
     }
     try {
@@ -45,7 +50,7 @@ export const signout = (req, res, next) => {
 
 // Delete User:
 export const deleteUser = async (req, res, next) => {
-    if (req.user.id !== req.params.id)
+    if (req.user._id !== req.params.id)
         return next(errorHandler(401, 'You can only delete your own account!'));
     try {
         await User.findByIdAndDelete(req.params.id);
