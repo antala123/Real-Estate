@@ -1,0 +1,48 @@
+.effects {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
+
+.links {
+    text-decoration: none;
+    color: #9edcdb;
+    position: relative;
+
+}
+
+.links::before,
+.links::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #105ea8;
+    transform: scaleX(0);
+    transition: all 0.6s ease;
+    border-radius: 5px;
+}
+
+.links::before {
+    top: 0;
+    right: 0;
+    transform-origin: left;
+}
+
+.links::after {
+    bottom: 0;
+    left: 0;
+    transform-origin: right;
+}
+
+.links:hover::before,
+.links:hover::after {
+    transform: scaleX(1);
+    border-radius: 5px;
+}
+
+/* .layer{
+    z-index: 9999;
+} */
+/* Mode Button */
+

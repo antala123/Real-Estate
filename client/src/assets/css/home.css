@@ -1,0 +1,142 @@
+@keyframes typing {
+
+    0.0000%,
+    27.3488% {
+        content: "";
+    }
+
+    1.1395%,
+    26.2093% {
+        content: "p";
+    }
+
+    2.2791%,
+    25.0698% {
+        content: "pe";
+    }
+
+    3.4186%,
+    23.9302% {
+        content: "per";
+    }
+
+    4.5581%,
+    22.7907% {
+        content: "perf";
+    }
+
+    5.6977%,
+    21.6512% {
+        content: "perfe";
+    }
+
+    6.8372%,
+    20.5116% {
+        content: "perfec";
+    }
+
+    7.9767%,
+    19.3721% {
+        content: "perfect";
+    }
+
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.typewriter {
+    --caret: currentcolor;
+}
+
+.typewriter::before {
+    content: "";
+    animation: typing 7.5s infinite;
+}
+
+.typewriter::after {
+    content: "";
+    border-radius: 10px;
+    border-right: 5px solid var(--caret);
+    animation: blink 0.3s linear infinite;
+}
+
+/* .typewriter.nocaret::after {
+    border-right: 0;
+} */
+
+@media (prefers-reduced-motion) {
+    .typewriter::after {
+        animation: none;
+    }
+
+    @keyframes sequencePopup {
+
+        0%,
+        100% {
+            content: "perfect";
+        }
+    }
+
+    .typewriter::before {
+        content: "perfect";
+        animation: sequencePopup 0.2s linear infinite;
+    }
+}
+
+
+/* swiper.... */
+
+
+
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.autoplay-progress {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--swiper-theme-color);
+}
+
+.autoplay-progress svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    stroke-width: 4px;
+    stroke: var(--swiper-theme-color);
+    fill: none;
+    stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+}

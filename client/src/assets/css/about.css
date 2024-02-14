@@ -1,0 +1,21 @@
+.about_title_section {
+    background-image: url(../Image/about-us-title-img.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover; 
+}
+
+.about_title {
+    min-height: 550px;
+}
+
+.about_last_section {
+    background-image: url(../Image/about-us-img4.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.about_last {
+    min-height: 550px;
+}
