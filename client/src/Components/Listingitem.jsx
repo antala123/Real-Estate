@@ -5,6 +5,8 @@ import { MdLocationOn } from 'react-icons/md';
 
 export default function Listingitem({ item }) {
 
+    const DiscountLasPrice = Number(item?.regularPrice) - Number(item?.discountPrice);
+
     return (
         <div>
             <div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]'>
@@ -33,7 +35,7 @@ export default function Listingitem({ item }) {
                         <p className='text-slate-500 mt-2 font-semibold '>
                             $
                             {item.offer
-                                ? item.discountPrice.toLocaleString('en-US')
+                                ? DiscountLasPrice.toLocaleString('en-US')
                                 : item.regularPrice.toLocaleString('en-US')}
                             {item.type === 'rent' && ' / month'}
                         </p>

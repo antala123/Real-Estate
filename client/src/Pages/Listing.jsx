@@ -28,7 +28,7 @@ export default function Listing({ setProgress }) {
     const { currentUser } = useSelector((state) => state.user);
     const DiscountLasPrice = Number(listing && listing.regularPrice) - Number(listing && listing.discountPrice);
 
-
+    
     useEffect(() => {
 
         const fetchlisting = async () => {

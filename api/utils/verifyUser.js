@@ -30,7 +30,7 @@ export const verifyUserToken = async (req, res, next) => {
     // console.log(accessToken);
 
     if (!accessToken) {
-        const userData = await user.findById({ _id: req.params.id });
+        const userData = await user.findById({ id: req.params.id });
         // console.log("user", user);
         if (!refreshTokens) {
             // const user = await User.findById({_id: req.params.id});
@@ -54,7 +54,7 @@ export const verifyUserToken = async (req, res, next) => {
             // Update the access token in the response
             res.cookie('access_token', newAccessToken, { httpOnly: true });
 
-            req.user = refreshDecoded;
+            req.userData = refreshDecoded;
             return next();
         } catch (error) {
             return next(errorHandler(401, "Invalid refresh token"));
