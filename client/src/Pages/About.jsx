@@ -18,7 +18,7 @@ export default function About({ setProgress }) {
     <div>
       <div className='about_title_section mx-5 rounded-lg mt-5'>
         <div className=' container about_title flex items-center mx-auto'>
-          <h2 className=' text-6xl sm:text-7xl text-white font-semibold'>About Us</h2>
+          <h2 className=' text-6xl sm:text-7xl text-white font-semibold'>About us</h2>
         </div>
       </div>
 
