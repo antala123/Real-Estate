@@ -5,7 +5,7 @@ import { Listing } from '../Model/listing.model.js';
 
 // Update User:
 export const updateUser = async (req, res, next) => {
-    if (req.user.id !== req.params.id)
+    if (req.user._id !== req.params.id)
         return next(errorHandler(401, "You can only update your own account!"));
 
     try {
@@ -64,7 +64,7 @@ export const deleteUser = async (req, res, next) => {
 
 // Show All Listing User:
 export const getUserListing = async (req, res, next) => {
-    if (req.user.id === req.params.id) {
+    if (req.user._id === req.params.id) {
         try {
             const listinguser = await Listing.find({ userRef: req.params.id })
             res.status(200).json(listinguser);

@@ -21,7 +21,7 @@ export const deletelisting = async (req, res, next) => {
         return next(errorHandler(404, "Listing not found"));
     }
 
-    if (req.user.id !== listing.userRef) {
+    if (req.user._id !== listing.userRef) {
         return next(errorHandler(401, "User Unuthorized"));
     }
 
@@ -41,7 +41,7 @@ export const updatelisting = async (req, res, next) => {
         return next(errorHandler(404, "Listing not found"));
     }
 
-    if (req.user.id !== listingupdate.userRef) {
+    if (req.user._id !== listingupdate.userRef) {
         return next(errorHandler(401, "User Unuthorized"));
     }
 

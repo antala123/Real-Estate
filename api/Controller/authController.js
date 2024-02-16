@@ -40,9 +40,14 @@ export const signin = async (req, res, next) => {
             return next(errorHandler(401, "Wrong User Password..."));
         }
 
-        const token = Jwt.sign({ _id: emailCheck._id }, process.env.JWT_KEY);
+        const token = Jwt.sign({ _id: emailCheck._id }, process.env.JWT_KEY, { expiresIn: process.env.ACCESSTOKEN_EXPIRATION });
+
+        const refreshToken = Jwt.sign({ _id: emailCheck._id }, process.env.REFRESH_SECRET, { expiresIn: process.env.REFRESHTOKEN_EXPIRATION })
+        emailCheck.refreshToken = refreshToken;
+        await emailCheck.save({ validateBeforeSave: false });
 
         res.cookie("access_token", token, { httpOnly: true })
+            .cookie("refresh_token", refreshToken, { httpOnly: true })
             .status(200)
             .json(emailCheck)
     }
@@ -58,10 +63,15 @@ export const google = async (req, res, next) => {
         const useremail = await user.findOne({ email: req.body.email });
 
         if (useremail) {
-            const token = Jwt.sign({ _id: useremail._id }, process.env.JWT_KEY);
+            const token = Jwt.sign({ _id: useremail._id }, process.env.JWT_KEY, { expiresIn: process.env.ACCESSTOKEN_EXPIRATION });
+
+            const refreshToken = Jwt.sign({ _id: useremail._id }, process.env.REFRESH_SECRET, { expiresIn: process.env.REFRESHTOKEN_EXPIRATION })
+            useremail.refreshToken = refreshToken;
+            await useremail.save({ validateBeforeSave: false });
+    
             const { password: pass, ...rest } = useremail._doc;
 
-            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
+            res.cookie('access_token', token, { httpOnly: true }).cookie("refresh_token", refreshToken, { httpOnly: true }).status(200).json(rest);
         }
         else {
             const genPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
@@ -75,10 +85,16 @@ export const google = async (req, res, next) => {
             })
             console.log(newUser);
 
-            const token = Jwt.sign({ _id: newUser._id }, process.env.JWT_KEY);
+            const token = Jwt.sign({ _id: newUser._id }, process.env.JWT_KEY, { expiresIn: process.env.ACCESSTOKEN_EXPIRATION });
+
+            const refreshToken = Jwt.sign({ _id: useremail._id }, process.env.REFRESH_SECRET, { expiresIn: process.env.REFRESHTOKEN_EXPIRATION })
+            
+            useremail.refreshToken = refreshToken;
+            await useremail.save({ validateBeforeSave: false });
+
             const { password: pass, ...rest } = newUser._doc;
 
-            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
+            res.cookie('access_token', token, { httpOnly: true }).cookie("refresh_token", refreshToken, { httpOnly: true }).status(200).json(rest);
         }
     }
     catch (error) {

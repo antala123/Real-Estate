@@ -30,31 +30,33 @@ export const verifyUserToken = async (req, res, next) => {
     // console.log(accessToken);
 
     if (!accessToken) {
-        const userData = await user.findById({ id: req.params.id });
+        const userData = await user.findById({ _id: req.params.id });
         // console.log("user", user);
         if (!refreshTokens) {
             // const user = await User.findById({_id: req.params.id});
             refreshTokens = userData.refreshToken;
         }
-        console.log(refreshTokens);
+        // console.log(refreshTokens);
 
         try {
             const refreshDecoded = jwt.verify(
                 refreshTokens,
                 process.env.REFRESH_SECRET
             );
+            // console.log(refreshDecoded);
 
             // Generate a new access token
             const newAccessToken = jwt.sign(
-                { id: refreshDecoded.id },
-                process.env.ACCESS_SECRET,
+                { _id: refreshDecoded._id },
+                process.env.JWT_KEY,
                 { expiresIn: process.env.ACCESSTOKEN_EXPIRATION }
             )
-
+            console.log(newAccessToken);
             // Update the access token in the response
             res.cookie('access_token', newAccessToken, { httpOnly: true });
 
-            req.userData = refreshDecoded;
+            req.user = refreshDecoded;
+            console.log(req.user);
             return next();
         } catch (error) {
             return next(errorHandler(401, "Invalid refresh token"));
@@ -62,7 +64,7 @@ export const verifyUserToken = async (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(accessToken, process.env.ACCESS_SECRET);
+        const decoded = jwt.verify(accessToken, process.env.JWT_KEY);
 
         // Check if token has expired
         if (decoded.exp * 1000 < Date.now()) {
@@ -79,8 +81,8 @@ export const verifyUserToken = async (req, res, next) => {
 
                 // Generate a new access token
                 const newAccessToken = jwt.sign(
-                    { id: refreshDecoded.id },
-                    process.env.ACCESS_SECRET,
+                    { _id: refreshDecoded._id },
+                    process.env.JWT_KEY,
                     { expiresIn: process.env.ACCESSTOKEN_EXPIRATION }
                 )
 
@@ -95,6 +97,7 @@ export const verifyUserToken = async (req, res, next) => {
         }
 
         req.user = decoded;
+        // console.log(req.user);
         return next();
     } catch (error) {
         return next(errorHandler(401, "Invalid refresh token"));
