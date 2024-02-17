@@ -36,7 +36,7 @@ export const verifyUserToken = async (req, res, next) => {
             // const user = await User.findById({_id: req.params.id});
             refreshTokens = userData.refreshToken;
         }
-        // console.log(refreshTokens);
+        console.log(refreshTokens);
 
         try {
             const refreshDecoded = jwt.verify(
